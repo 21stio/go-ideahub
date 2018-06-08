@@ -1,0 +1,33 @@
+<div class="row comment">
+	{{ if gt .Level 0 }}
+	<div class="col-{{ .Level }}"></div>
+	{{ end }}
+    <div class="col-{{ sub 12 .Level }}">
+		<div class="row">
+			<div class="col-12">
+				<a href="/user/{{ .Username }}">{{ .Username }}</a> {{ .AgeLabel }} ago
+			</div>
+			<div class="col-12">
+				{{ .Comment }}
+			</div>
+			<div class="col-12">
+				<a href="#" class="reply-btn" comment-id="{{ .Id }}">reply</a>
+			</div>
+            <div class="col-12 reply hidden" comment-id="{{ .Id }}">
+                <form action="/u/comment" method="post">
+                    <input name="idea_id" type="hidden" value="{{ .IdeaId }}">
+                    <input name="parent_id" type="hidden" value="{{ .Id }}">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" name="comment" comment-id="{{ .Id }}"></textarea>
+                    </div>
+                    <button type="submit" class="reply btn btn-primary" comment-id="{{ .Id }}">Reply</button>
+                </form>
+            </div>
+		</div>
+	</div>
+</div>
+{{ if .Children }}
+{{ range $i, $comment := .Children }}
+{{ template "comment.html" $comment }}
+{{ end }}
+{{ end }}

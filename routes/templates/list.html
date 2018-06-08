@@ -1,0 +1,23 @@
+<div class="row list">
+    <div class="col-12">
+        {{ range $i, $idea := .Ideas }}
+            <div class="row item {{ if eq $i 0 }}first{{ end }} {{if last $i $.Ideas }}last{{ end }}">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-12">
+                        {{ if not $idea.Upvoted }}<a class="upvote" href="/u/upvote/{{ $idea.Id }}/{{ $idea.Slug }}">▲</a>{{ end }} <a href="/idea/{{ $idea.Slug }}">{{ $idea.Title }}</a>
+                        </div>
+                        <div class="col-12 sub">
+                        {{ $idea.NUpvotes }} points by <a href="/user/{{ $idea.Author }}">{{ $idea.Author }}</a> {{ $idea.AgeLabel }} ago | {{ $idea.NComments }} comments
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 metric">
+                {{ range $i, $badge := $idea.GetBadges }}
+                    <img src="{{ $badge.ImageUrl }}" title="{{ $badge.Name }}" alt="{{ $badge.Name }}">
+                {{ end }}
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</div>

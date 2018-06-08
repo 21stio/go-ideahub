@@ -1,0 +1,127 @@
+{{ template "head.html" . }}
+<div class="container">
+    <div class="row">
+        <div class="col-5">
+            <div class="row">
+				{{ if .User.About }}
+                <div class="col-12">
+                    <h6>About</h6>
+                    <p>{{ .User.About }}</p>
+                </div>
+				{{ end }}
+				{{ if .User.Email }}
+                <div class="col-12">
+                    <h6>Email</h6>
+                    <p><a href="mailto:{{ .User.Email }}">{{ .User.Email }}</a></p>
+                </div>
+				{{ end }}
+				{{ if .User.WebsiteUrl }}
+                <div class="col-12">
+                    <h6>Website</h6>
+                    <p><a target="_blank" target="_top" href="https://{{ .User.WebsiteUrl }}">{{ .User.WebsiteUrl }}</a></p>
+                </div>
+				{{ end }}
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="row">
+				{{ if .User.GithubUrl }}
+				<div class="col-12">
+					<h6>Github</h6>
+					<p><a target="_blank" rel="nofollow" href="https://{{ .User.GithubUrl }}">{{ .User.GithubUrl }}</a></p>
+				</div>
+				{{ end }}
+				{{ if .User.HackerNewsUrl }}
+				<div class="col-12">
+					<h6>HackerNews</h6>
+					<p><a target="_blank" rel="nofollow" href="https://{{ .User.HackerNewsUrl }}">{{ .User.HackerNewsUrl }}</a></p>
+				</div>
+				{{ end }}
+				{{ if .User.TwitterUrl }}
+				<div class="col-12">
+					<h6>TwitterNews</h6>
+					<p><a target="_blank" rel="nofollow" href="https://{{ .User.TwitterUrl }}">{{ .User.TwitterUrl }}</a></p>
+				</div>
+				{{ end }}
+				{{ if .User.MediumUrl }}
+				<div class="col-12">
+					<h6>Twitter</h6>
+					<p><a target="_blank" rel="nofollow" href="https://{{ .User.MediumUrl }}">{{ .User.MediumUrl }}</a></p>
+				</div>
+				{{ end }}
+				{{ if .User.LinkedInUrl }}
+				<div class="col-12">
+					<h6>LinkedIn</h6>
+					<p><a target="_blank" rel="nofollow" href="https://{{ .User.LinkedInUrl }}">{{ .User.LinkedInUrl }}</a></p>
+				</div>
+				{{ end }}
+            </div>
+        </div>
+		<div class="col-2">
+            <h6>Visits</h6>
+            <div id="stats_chart_wrapper">
+                <canvas id="stats_chart"></canvas>
+            </div>
+		</div>
+    </div>
+	<div class="row">
+		<div class="col-12">
+            <h6>Ideas</h6>
+		</div>
+	</div>
+	{{ if .Ideas }}
+	{{ template "list.html" . }}
+	{{ end }}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script>
+$(document).ready(function () {
+	function initChart() {
+		var data = {{ marshal .VisitsCountSeries }}
+
+		var ctx = document.getElementById('stats_chart').getContext('2d');
+
+		var chart = new Chart(ctx, {
+			type: 'line',
+			options: {
+				scales: {
+					xAxes: [{
+						gridLines : {
+							drawBorder: false,
+							display: false,
+						},
+					}],
+					yAxes: [{
+						gridLines : {
+							drawBorder: false,
+							display: false,
+						},
+						ticks: {
+							beginAtZero: true,
+							callback: function(value) {if (value % 1   === 0) {return value;}},
+						}
+					}]
+				},
+				legend: {
+					display: false,
+				}
+			},
+			data: {
+				labels: data["date"],
+				datasets: [{
+					label: "Visits",
+					backgroundColor: '#fff',
+					borderColor: 'rgb(0,123,255)',
+					data: data["count"],
+				}]
+			},
+		});
+	}
+
+	initChart()
+});</script>
+
+
+{{ template "foot.html" }}

@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="/public/favicon.ico"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script" rel="stylesheet">
+
+    <title>{{ .HtmlTitle }}</title>
+
+    <style>
+        body {
+            margin-bottom: 200px;
+        }
+
+        p, a, h1, h2, h3, h4, h5, h6 {
+            line-height: 2em;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        #logo {
+            width: 50px;
+            height: 50px;
+			margin: 10px;
+            margin-left: -20px;
+            margin-top: -2px;
+            border-radius: 50%;
+		}
+
+        .navbar-brand {
+            position: relative;
+        }
+
+        #logo_title {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 45px;
+        }
+
+        #logo_subtitle {
+            font-size: 13px;
+            color: #aaa;
+            position: absolute;
+            left: 46px;
+            bottom: 8px;
+        }
+
+		.nav ul {
+			margin-right: -1px;
+		}
+
+        .nav li {
+            list-style: none;
+            display:inline;
+			margin-left: 3px;
+        }
+
+        .nav a {
+            font-weight: bold;
+        }
+
+		.list .head {
+            padding: 7px 0 7px 0;
+
+            margin-top: 10px;
+			margin-bottom: 10px;
+		}
+
+        .list .upvote {
+            text-decoration: none;
+        }
+
+        .list .item {
+			padding: 7px 0 7px 0;
+            border: 3px solid #eee;
+            border-bottom: 0;
+        }
+
+        .list .item.first {
+            border-radius: 5px 5px 0 0;
+        }
+
+        .list .item.last {
+            border-radius: 0 0 5px 5px;
+            border-bottom: 3px solid #eee;
+        }
+
+        .metric {
+            margin-bottom: -5px;
+            text-align: center;
+        }
+
+        .list .item .sub {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .metric img {
+            height: 20px;
+            width: 20px;
+            margin: 18px;
+            float: right;
+        }
+
+        #idea img.badge2 {
+            height: 20px;
+            width: 20px;
+            margin: 8px;
+        }
+
+        form#submit label img {
+            height: 25px;
+            width: 25px;
+            margin-right: 10px;
+            margin-top: -4px;
+        }
+
+        #idea #description_markdown {
+            display: none;
+        }
+
+        #idea #description {
+        }
+
+        #idea .title {
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #forkme {
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            text-decoration: none;
+            transform: rotate(45deg);
+            color: #32ff7e;
+        }
+
+        #gohome {
+            color: rgba(0,0,0,.5);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .comment {
+            margin: 20px 0;
+        }
+
+        .badge-check {
+            margin: 15px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+	</style>
+</head>
+<body>
+<a href="#" id="forkme">Fork me</a>
+{{ if not .IsHome }}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <a class="nav-link" id="gohome" href="/">‹ Home</a>
+        </div>
+    </div>
+</div>
+{{ end }}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{{ .TitleUrl }}">
+            <img src="{{ .LogoUrl }}" alt="" id="logo">
+            <span id="logo_title">{{ .Title }}</span>
+            <span id="logo_subtitle">{{ .SubTitle }}</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/u/submit">Submit</a>
+                </li>
+                {{ if .IsLoggedIn }}
+                <li class="nav-item">
+                    <a class="nav-link" href="/u/me">Me</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/logout">Logout</a>
+                </li>
+                {{ else }}
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/login">Enter</a>
+                </li>
+                {{ end }}
+            </ul>
+        </div>
+    </nav>
+</div>

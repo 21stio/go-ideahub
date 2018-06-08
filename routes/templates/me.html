@@ -1,0 +1,119 @@
+{{ template "head.html" . }}
+
+<div class="container">
+    <form id="me" action="/u/me" method="post">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="avatar_url"><h6>Avatar Url</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.Avatar) }}is-invalid{{ end }}"
+                           id="avatar_url" name="avatar_url" value="{{ .Me.AvatarUrl }}">
+                    {{ if and (eq .Method "POST") (not .ValidUrls.Avatar) }}
+                        <div class="invalid-feedback">
+                            Please provide valid url
+                        </div>
+                    {{ end }}
+                </div>
+                <div class="form-group">
+                    <label for="about"><h6>About</h6></label>
+                    <input type="text"
+                           class="form-control"
+                           id="about" name="about" value="{{ .Me.About }}">
+                </div>
+                <div class="form-group">
+                    <label for="email"><h6>Email</h6></label>
+                    <input type="text"
+                           class="form-control"
+                           id="email" name="email" value="{{ .Me.Email }}">
+                </div>
+                <div class="form-group">
+                    <label for="website_url"><h6>Website</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.Website) }}is-invalid{{ end }}"
+                           id="website_url" name="website_url" value="{{ .Me.WebsiteUrl }}">
+                    {{ if and (eq .Method "POST") (not .ValidUrls.Website) }}
+                        <div class="invalid-feedback">
+                            Please provide valid url
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="twitter_url"><h6>Twitter</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.Twitter) }}is-invalid{{ end }}"
+                           id="twitter_url" name="twitter_url" value="{{ .Me.TwitterUrl }}">
+                {{ if and (eq .Method "POST") (not .ValidUrls.Twitter) }}
+                    <div class="invalid-feedback">
+                        Please provide valid url
+                    </div>
+                {{ end }}
+                </div>
+                <div class="form-group">
+                    <label for="hackernews_url"><h6>HackerNews</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.HackerNews) }}is-invalid{{ end }}"
+                           id="hackernews_url" name="hackernews_url" value="{{ .Me.HackerNewsUrl }}">
+                    {{ if and (eq .Method "POST") (not .ValidUrls.HackerNews) }}
+                        <div class="invalid-feedback">
+                            Please provide valid url
+                        </div>
+                    {{ end }}
+                </div>
+                <div class="form-group">
+                    <label for="github_url"><h6>GitHub</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.Github) }}is-invalid{{ end }}"
+                           id="github_url" name="github_url" value="{{ .Me.GithubUrl }}">
+                    {{ if and (eq .Method "POST") (not .ValidUrls.Github) }}
+                        <div class="invalid-feedback">
+                            Please provide valid url
+                        </div>
+                    {{ end }}
+                </div>
+                <div class="form-group">
+                    <label for="medium_url"><h6>Medium</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.Medium) }}is-invalid{{ end }}"
+                           id="medium_url" name="medium_url" value="{{ .Me.MediumUrl }}">
+                    {{ if and (eq .Method "POST") (not .ValidUrls.Medium) }}
+                        <div class="invalid-feedback">
+                            Please provide valid url
+                        </div>
+                    {{ end }}
+                </div>
+                <div class="form-group">
+                    <label for="linkedin_url"><h6>LinkedIn</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (not .ValidUrls.LinkedIn) }}is-invalid{{ end }}"
+                           id="linkedin_url" name="linkedin_url" value="{{ .Me.LinkedInUrl }}">
+                    {{ if and (eq .Method "POST") (not .ValidUrls.LinkedIn) }}
+                        <div class="invalid-feedback">
+                            Please provide valid url
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-12">
+            <h6>Ideas</h6>
+        </div>
+    </div>
+    {{ template "list.html" . }}
+    {{if not .Ideas }}<a href="https://www.wikihow.com/Be-Creative" target="_blank">How to be creative</a>{{end}}
+</div>
+
+
+
+{{ template "foot.html" }}

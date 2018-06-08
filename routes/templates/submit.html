@@ -1,0 +1,78 @@
+{{ template "head.html" . }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form id="submit" action="/u/submit" method="post">
+                <div class="form-group">
+                    <label for="title"><h6>Title</h6></label>
+                    <input type="text"
+                           class="form-control {{ if and (eq .Method "POST") (eq .Idea.Title "") }}is-invalid{{ end }}"
+                           id="title" name="title" value="{{ .Idea.Title }}">
+                {{ if and (eq .Method "POST") (eq .Idea.Title "") }}
+                    <div class="invalid-feedback">
+                        Please provide a title
+                    </div>
+                {{ end }}
+                    <small class="form-text text-muted">Can be anything you think the world is missing, not
+                        limited to any specific domain
+                    </small>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <h6>Badges</h6>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            {{ range $i, $badge := .Badges }}
+                                <div class="form-check form-check-inline badge-check">
+                                    <input class="form-check-input" type="checkbox" id="badge_{{ $badge.Name }}" name="badges" value="{{ $badge.Name }}">
+                                    <label class="form-check-label" for="badge_{{ $badge.Name }}"><img src="{{ $badge.ImageUrl }}" alt="{{ $badge.Name }}">{{ $badge.Name }}</label>
+                                </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description"><h6>Description</h6></label>
+                    <textarea class="form-control {{ if and (eq .Method "POST") (eq .Idea.DescriptionMarkdown "") }}is-invalid{{end}}" id="description" name="description" rows="15">{{ .Idea.DescriptionMarkdown }}</textarea>
+                {{ if and (eq .Method "POST") (eq .Idea.DescriptionMarkdown "") }}
+                    <div class="invalid-feedback">
+                        Please provide a description
+                    </div>
+                {{end}}
+                    <small class="form-text text-muted">Rendered via markdown <a target="_blank"
+                                                                                 href="http://commonmark.org/help/">What is
+                        markdown?</a></small>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <h6>Preview</h6>
+                        <div id="preview">
+
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <small class="form-text text-muted">By submitting the form you are publishing these information under the
+                    creative commons license (CC BY 4.0) as its author. <a target="_blank"
+                                                                           href="https://creativecommons.org/licenses/by/4.0/">What
+                        is the creative commons license?</a></small>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#description').bind('input propertychange change', function () {
+            document.getElementById('preview').innerHTML = marked($('#description').val());
+        });
+    });</script>
+
+{{ template "foot.html" }}

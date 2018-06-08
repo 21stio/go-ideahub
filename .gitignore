@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+vendor/
+GeoLite2-City.mmdb
+.ignore/
+main

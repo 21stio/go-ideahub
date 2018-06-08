@@ -1,0 +1,19 @@
+package: github.com/21stio/go-ideahub
+import:
+- package: github.com/gorilla/sessions
+  version: ^1.1.0
+- package: github.com/codegangsta/negroni
+  version: ^0.3.0
+- package: github.com/joho/godotenv
+  version: ^1.2.0
+- package: github.com/microcosm-cc/bluemonday
+- package: gopkg.in/russross/blackfriday.v2
+  version: ^2.0.0
+- package: github.com/shurcooL/sanitized_anchor_name
+- package: github.com/lib/pq
+- package: github.com/gosimple/slug
+  version: ^1.1.1
+- package: github.com/rainycape/unidecode
+- package: github.com/oschwald/geoip2-golang
+  version: ^1.2.1
+- package: github.com/tomasen/realip

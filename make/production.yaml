@@ -1,0 +1,95 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:9.2-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "{{ POSTGRES_PASSWORD }}"
+        - name: POSTGRES_USER
+          value: "{{ POSTGRES_USER }}"
+        - name: POSTGRES_DB
+          value: "{{ POSTGRES_DB }}"
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data
+      volumes:
+      - name: postgres-data
+        hostPath:
+          path: /data/postgres-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    name: postgres
+  ports:
+  - name: postgres
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+  type: NodePort
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: app
+    spec:
+      containers:
+      - name: app
+        image: "{{ IMAGE }}"
+        imagePullPolicy: Always
+        env:
+        - name: SESSION_KEY
+          value: "{{ SESSION_KEY }}"
+        - name: ADDR
+          value: "{{ ADDR }}"
+        - name: AUTH0_CLIENT_ID
+          value: "{{ AUTH0_CLIENT_ID }}"
+        - name: AUTH0_DOMAIN
+          value: "{{ AUTH0_DOMAIN }}"
+        - name: AUTH0_CLIENT_SECRET
+          value: "{{ AUTH0_CLIENT_SECRET }}"
+        - name: AUTH0_CALLBACK_URL
+          value: "{{ AUTH0_CALLBACK_URL }}"
+        - name: POSTGRES_URL
+          value: "{{ POSTGRES_URL }}"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - "{{ HOST }}"
+    secretName: www-tls
+  rules:
+  - host: "{{ HOST }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: app
+          servicePort: 80

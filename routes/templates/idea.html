@@ -1,0 +1,112 @@
+{{ template "head.html" . }}
+
+<div class="container" id="idea">
+    <div class="row">
+        <div class="col-8">
+        </div>
+        <div class="col-2">
+            <h6>Visits</h6>
+            <div id="stats_chart_wrapper">
+                <canvas id="stats_chart"></canvas>
+            </div>
+        </div>
+        <div class="col-2">
+            <h6>Badges</h6>
+        {{ range $i, $badge := .Idea.GetBadges }}
+            <img class="badge2" src="{{ $badge.ImageUrl }}" alt="{{ $badge.Name }}" title="{{ $badge.Name }}">
+        {{ end }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 title">
+            <h3>{{ .Idea.Title }}</h3>
+        </div>
+    </div>
+    <div class="row" >
+        <textarea id="description_markdown">{{ .Idea.DescriptionMarkdown }}</textarea>
+    </div>
+    <div class="row">
+        <div class="col-12" id="description">{{ .DescriptionHtml }}</div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form action="/u/comment" method="post">
+                <input name="idea_id" type="hidden" value="{{ .Idea.Id }}">
+                <div class="form-group">
+                    <textarea class="form-control" rows="5" name="comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+        </div>
+    </div>
+    {{ range $i, $comment := .Comments }}
+    {{ template "comment.html" $comment }}
+    {{ end }}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $('#description').html(marked($('#description_markdown').html()))
+
+    $(".reply-btn").click(function (e) {
+        var id = $(this).attr("comment-id");
+
+        $(".reply-btn").removeClass("hidden");
+        $(this).addClass("hidden");
+
+        $(".reply").addClass("hidden");
+        $(".reply[comment-id=" + id + "]").removeClass("hidden");
+
+        e.preventDefault()
+    });
+
+    function initChart() {
+        var data = {{ marshal .VisitsCountSeries }}
+
+        var ctx = document.getElementById('stats_chart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            options: {
+                scales: {
+                    xAxes: [{
+                        gridLines : {
+                            drawBorder: false,
+                            display: false,
+                        },
+                    }],
+                    yAxes: [{
+                        gridLines : {
+                            drawBorder: false,
+                            display: false,
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value) {if (value % 1   === 0) {return value;}},
+                        }
+                    }]
+                },
+                legend: {
+                    display: false,
+                }
+            },
+            data: {
+                labels: data["date"],
+                datasets: [{
+                    label: "Visits",
+                    backgroundColor: '#fff',
+                    borderColor: 'rgb(0,123,255)',
+                    data: data["count"],
+                }]
+            },
+        });
+    }
+
+    initChart()
+});</script>
+
+{{ template "foot.html" }}
