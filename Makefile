@@ -12,6 +12,10 @@ r: render
 render:
 	${SOURCE_MAKE} && render
 
+m: migrate
+migrate:
+	${SOURCE_MAKE} && migrate
+
 dgeo: download_geodb
 download_geodb:
 	${SOURCE_MAKE} && download_geodb

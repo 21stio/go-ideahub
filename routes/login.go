@@ -8,13 +8,14 @@ import (
 	"github.com/gorilla/sessions"
 	sess "github.com/21stio/go-ideahub/session"
 	"github.com/21stio/go-ideahub/utils"
+	"os"
 )
 
 func GetLoginHandler(store sessions.Store) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := func() (err error) {
 			domain := utils.GetEnv("AUTH0_DOMAIN")
-			aud := utils.GetEnv("AUTH0_AUDIENCE")
+			aud := os.Getenv("AUTH0_AUDIENCE")
 
 			conf := utils.GetOAuthConfig()
 

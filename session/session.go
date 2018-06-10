@@ -24,7 +24,7 @@ func GetBaseData(store sessions.Store, r *http.Request) (baseData templates.Base
 
 	baseData = templates.BaseData{}
 	baseData.HtmlTitle = "sharing ideas"
-	baseData.Title = "TMRW"
+	baseData.Title = "IDEAHUB"
 	baseData.SubTitle = "sharing ideas"
 	baseData.TitleUrl = "/"
 	baseData.LogoUrl = "/public/littleguy.png"

@@ -343,8 +343,6 @@ func Tracking(reader *geoip2.Reader) func(w http.ResponseWriter, r *http.Request
 
 			visit.VisitorId = base64.URLEncoding.EncodeToString(h.Sum(nil))
 
-			spew.Dump(visit.VisitorId)
-
 			if len(visitsCh) < chLen-10 {
 				visitsCh <- visit
 			}

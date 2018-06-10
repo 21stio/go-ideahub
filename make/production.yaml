@@ -40,7 +40,6 @@ spec:
     protocol: TCP
     port: 5432
     targetPort: 5432
-  type: NodePort
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -58,6 +57,8 @@ spec:
         image: "{{ IMAGE }}"
         imagePullPolicy: Always
         env:
+        - name: SALT
+          value: "{{ SALT }}"
         - name: SESSION_KEY
           value: "{{ SESSION_KEY }}"
         - name: ADDR
@@ -72,6 +73,19 @@ spec:
           value: "{{ AUTH0_CALLBACK_URL }}"
         - name: POSTGRES_URL
           value: "{{ POSTGRES_URL }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+spec:
+  selector:
+    name: app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
