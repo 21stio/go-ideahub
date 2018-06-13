@@ -1,7 +1,7 @@
 {{ template "head.html" . }}
 <div class="container">
     <div class="row">
-        <div class="col-5">
+        <div class="col-sm-5 col-6">
             <div class="row">
 				{{ if .User.About }}
                 <div class="col-12">
@@ -23,7 +23,7 @@
 				{{ end }}
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-sm-5 col-6">
             <div class="row">
 				{{ if .User.GithubUrl }}
 				<div class="col-12">
@@ -57,7 +57,7 @@
 				{{ end }}
             </div>
         </div>
-		<div class="col-2">
+		<div class="col-sm-2 col-6">
             <h6>Visits</h6>
             <div id="stats_chart_wrapper">
                 <canvas id="stats_chart"></canvas>

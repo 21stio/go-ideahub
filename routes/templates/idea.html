@@ -2,15 +2,15 @@
 
 <div class="container" id="idea">
     <div class="row">
-        <div class="col-8">
+        <div class="col-md-8 col-sm-4 col-0">
         </div>
-        <div class="col-2">
+        <div class="col-md-2 col-sm-4 col-6">
             <h6>Visits</h6>
             <div id="stats_chart_wrapper">
                 <canvas id="stats_chart"></canvas>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2 col-sm-4 col-6">
             <h6>Badges</h6>
         {{ range $i, $badge := .Idea.GetBadges }}
             <img class="badge2" src="{{ $badge.ImageUrl }}" alt="{{ $badge.Name }}" title="{{ $badge.Name }}">
@@ -28,12 +28,13 @@
     <div class="row">
         <div class="col-12" id="description">{{ .DescriptionHtml }}</div>
     </div>
+    <h6>Comments</h6>
     <div class="row">
         <div class="col-12">
             <form action="/u/comment" method="post">
                 <input name="idea_id" type="hidden" value="{{ .Idea.Id }}">
                 <div class="form-group">
-                    <textarea class="form-control" rows="5" name="comment"></textarea>
+                    <textarea class="form-control" rows="5" name="comment" id="comment"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Comment</button>
             </form>
@@ -51,6 +52,12 @@
 <script>
 $(document).ready(function () {
     $('#description').html(marked($('#description_markdown').html()))
+
+    {{ if not .IsLoggedIn }}
+    $("textarea#comment").click(function (e) {
+        window.location.assign("/auth/login");
+    });
+    {{ end }}
 
     $(".reply-btn").click(function (e) {
         var id = $(this).attr("comment-id");

@@ -10,13 +10,13 @@ import (
 	"crypto/sha256"
 	"bytes"
 	"time"
-	"log"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/21stio/go-ideahub/routes"
 	"github.com/21stio/go-ideahub/queries"
 	"encoding/base64"
 	"github.com/tomasen/realip"
 	"github.com/21stio/go-ideahub/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 var salt = []byte(utils.GetEnv("SALT"))
@@ -294,7 +294,6 @@ func insertVisits() {
 				err := queries.InsertVisit(visit)
 				if err != nil {
 					spew.Dump(err)
-					spew.Dump("dropped visit")
 				}
 			}
 		}()
@@ -314,9 +313,6 @@ func Tracking(reader *geoip2.Reader) func(w http.ResponseWriter, r *http.Request
 			ipString := realip.FromRequest(r)
 			ip := net.ParseIP(ipString)
 
-			spew.Dump(ipString)
-			spew.Dump(ipString)
-
 			city, err := reader.City(ip)
 			if err != nil {
 				return
@@ -324,8 +320,7 @@ func Tracking(reader *geoip2.Reader) func(w http.ResponseWriter, r *http.Request
 
 			loc, ok := locs[city.Country.IsoCode]
 			if !ok {
-				spew.Dump(city.Country.IsoCode)
-				spew.Dump("did not find location")
+				log.Errorf("didn't find location for %s", ipString)
 				return
 			}
 
