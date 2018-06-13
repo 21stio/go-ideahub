@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/21stio/go-ideahub/session"
 	"github.com/21stio/go-ideahub/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 func GetLogoutHandler(store sessions.Store) func(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +27,7 @@ func GetLogoutHandler(store sessions.Store) func(w http.ResponseWriter, r *http.
 
 			Url.Path += "/v2/logout"
 			parameters := url.Values{}
-			parameters.Add("returnTo", "http://localhost:3000")
+			parameters.Add("returnTo", utils.GetEnv("LOGOUT_RETURN_TO"))
 			parameters.Add("client_id", utils.GetEnv("AUTH0_CLIENT_ID"))
 			Url.RawQuery = parameters.Encode()
 
@@ -36,6 +37,7 @@ func GetLogoutHandler(store sessions.Store) func(w http.ResponseWriter, r *http.
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

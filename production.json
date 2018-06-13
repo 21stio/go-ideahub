@@ -12,5 +12,6 @@
   "POSTGRES_PASSWORD":"",
   "POSTGRES_DB":"",
   "IMAGE":"",
-  "SALT":""
+  "SALT":"",
+  "LOGOUT_RETURN_TO":""
 }

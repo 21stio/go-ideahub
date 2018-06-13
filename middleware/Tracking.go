@@ -314,6 +314,9 @@ func Tracking(reader *geoip2.Reader) func(w http.ResponseWriter, r *http.Request
 			ipString := realip.FromRequest(r)
 			ip := net.ParseIP(ipString)
 
+			spew.Dump(ipString)
+			spew.Dump(ipString)
+
 			city, err := reader.City(ip)
 			if err != nil {
 				return

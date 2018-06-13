@@ -9,6 +9,7 @@ import (
 	sess "github.com/21stio/go-ideahub/session"
 	"github.com/21stio/go-ideahub/utils"
 	"os"
+	log "github.com/sirupsen/logrus"
 )
 
 func GetLoginHandler(store sessions.Store) func(w http.ResponseWriter, r *http.Request) {
@@ -41,6 +42,7 @@ func GetLoginHandler(store sessions.Store) func(w http.ResponseWriter, r *http.R
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

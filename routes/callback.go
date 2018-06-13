@@ -12,6 +12,7 @@ import (
 	"github.com/21stio/go-ideahub/queries"
 	"time"
 	"errors"
+	log "github.com/sirupsen/logrus"
 )
 
 func GetCallBackHandler(store sessions.Store) func(w http.ResponseWriter, r *http.Request) {
@@ -96,8 +97,7 @@ func GetCallBackHandler(store sessions.Store) func(w http.ResponseWriter, r *htt
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			log.Error(err)
 		}
-
 	}
 }

@@ -17,3 +17,8 @@ import:
 - package: github.com/oschwald/geoip2-golang
   version: ^1.2.1
 - package: github.com/tomasen/realip
+- package: github.com/sirupsen/logrus
+  version: ^1.0.5
+- package: golang.org/x/crypto
+  subpackages:
+  - ssh/terminal

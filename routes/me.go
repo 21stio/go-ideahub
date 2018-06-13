@@ -8,6 +8,7 @@ import (
 	"github.com/21stio/go-ideahub/types"
 	"net/url"
 	"strings"
+	log "github.com/sirupsen/logrus"
 )
 
 type MeData struct {
@@ -53,6 +54,7 @@ func GetGetMeHandler(tpl *template.Template) func(w http.ResponseWriter, r *http
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }
@@ -105,6 +107,7 @@ func GetPostMeHandler(tpl *template.Template) func(w http.ResponseWriter, r *htt
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

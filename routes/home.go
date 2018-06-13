@@ -6,6 +6,7 @@ import (
 	"github.com/21stio/go-ideahub/routes/templates"
 	"github.com/21stio/go-ideahub/queries"
 	"github.com/21stio/go-ideahub/types"
+	log "github.com/sirupsen/logrus"
 )
 
 type HomeData struct {
@@ -40,6 +41,7 @@ func GetHomeHandler(tpl *template.Template) func(w http.ResponseWriter, r *http.
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

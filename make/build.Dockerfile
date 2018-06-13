@@ -15,3 +15,6 @@ RUN go get github.com/gorilla/sessions && \
 	go get github.com/davecgh/go-spew/spew && \
 	go get github.com/gorilla/mux && \
 	go get golang.org/x/oauth2
+
+RUN go get golang.org/x/crypto/ssh/terminal && \
+	go get github.com/sirupsen/logrus

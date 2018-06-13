@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"github.com/21stio/go-ideahub/types"
+	log "github.com/sirupsen/logrus"
 )
 
 type UserData struct {
@@ -56,6 +57,7 @@ func GetUserHandler(tpl *template.Template) func(w http.ResponseWriter, r *http.
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

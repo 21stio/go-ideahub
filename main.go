@@ -93,7 +93,6 @@ func getMiddleware() (n *negroni.Negroni) {
 
 	authedBase := mux.NewRouter()
 	root.PathPrefix(routes.AUTHENTICATED).Handler(negroni.New(
-		negroni.NewRecovery(),
 		negroni.HandlerFunc(negroni.HandlerFunc(middleware.GetIsAuthenticated(store))),
 		negroni.Wrap(authedBase),
 	))
@@ -107,6 +106,7 @@ func getMiddleware() (n *negroni.Negroni) {
 	authed.HandleFunc(routes.COMMENT, routes.GetPostCommentHandler()).Methods(http.MethodPost)
 
 	n = negroni.New(
+		negroni.NewRecovery(),
 		negroni.NewLogger(),
 		negroni.HandlerFunc(middleware.InjectSession(store)),
 		negroni.HandlerFunc(middleware.Tracking(reader)),

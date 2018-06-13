@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"github.com/gorilla/mux"
 	"github.com/21stio/go-ideahub/queries"
+	log "github.com/sirupsen/logrus"
 )
 
 type IdeaData struct {
@@ -53,7 +54,7 @@ func GetIdeaHandler(tpl *template.Template) func(w http.ResponseWriter, r *http.
 			ideaData.BaseData = baseData
 			ideaData.Idea = idea
 			ideaData.VisitsCountSeries = visitCountsSeries
-			ideaData.TitleUrl = idea.Title
+			ideaData.HtmlTitle = idea.Title
 			ideaData.Comments = comments
 			ideaData.Author = author
 			ideaData.DescriptionHtml = template.HTML(idea.DescriptionHtml)
@@ -67,6 +68,7 @@ func GetIdeaHandler(tpl *template.Template) func(w http.ResponseWriter, r *http.
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

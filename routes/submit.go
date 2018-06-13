@@ -14,6 +14,7 @@ import (
 	"math/rand"
 	"strings"
 	"github.com/davecgh/go-spew/spew"
+	log "github.com/sirupsen/logrus"
 )
 
 type SubmitData struct {
@@ -48,6 +49,7 @@ func GetGetSubmitHandler(tpl *template.Template) func(w http.ResponseWriter, r *
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }
@@ -97,6 +99,7 @@ func GetPostSubmitHandler(tpl *template.Template) func(w http.ResponseWriter, r 
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

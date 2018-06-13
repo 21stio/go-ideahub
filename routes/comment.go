@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"time"
 	"strconv"
+	log "github.com/sirupsen/logrus"
 )
 
 func GetPostCommentHandler() func(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +35,7 @@ func GetPostCommentHandler() func(w http.ResponseWriter, r *http.Request) {
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }

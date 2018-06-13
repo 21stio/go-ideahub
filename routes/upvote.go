@@ -10,6 +10,7 @@ import (
 	"strings"
 	sess "github.com/21stio/go-ideahub/session"
 	"github.com/gorilla/sessions"
+	log "github.com/sirupsen/logrus"
 )
 
 func GetUpvotedHandler(store sessions.Store) func(w http.ResponseWriter, r *http.Request) {
@@ -47,6 +48,7 @@ func GetUpvotedHandler(store sessions.Store) func(w http.ResponseWriter, r *http
 		}()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error(err)
 		}
 	}
 }
